@@ -53,6 +53,8 @@
 
 - (void)getPostsFromApi
 {
+    self.navigationItem.title = @"Loading Today's Hunts...";
+
     self.doneLoading = false;
     self.loadTimer = [NSTimer scheduledTimerWithTimeInterval:0.025
                                                       target:self
@@ -71,23 +73,32 @@
          if (!connectionError)
          {
              NSDictionary *output = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&connectionError];
-             NSArray *hunts = output[@"hunts"];
 
-             for (NSDictionary *hunt in hunts)
+             if (output)
              {
-                 NSString *productLink = hunt[@"url"];
-                 NSString *title = hunt[@"title"];
-                 NSString *subtitle = hunt[@"tagline"];
-                 NSString *commentLink = [NSString stringWithFormat:@"http://www.producthunt.com%@", hunt[@"permalink"]];
-                 NSString *imageLink = nil;
+                 self.navigationItem.title = @"Today";
 
-                 Post *post = [[Post alloc] initWithproductLink:productLink
-                                                          title:title
-                                                       subtitle:subtitle
-                                                      imageLink:imageLink
-                                                    commentLink:commentLink];
-                 [self.posts addObject:post];
+                 for (NSDictionary *hunt in output[@"hunts"])
+                 {
+                     NSString *productLink = hunt[@"url"];
+                     NSString *title = hunt[@"title"];
+                     NSString *subtitle = hunt[@"tagline"];
+                     NSString *commentLink = [NSString stringWithFormat:@"http://www.producthunt.com%@", hunt[@"permalink"]];
+                     NSString *imageLink = nil;
+
+                     Post *post = [[Post alloc] initWithproductLink:productLink
+                                                              title:title
+                                                           subtitle:subtitle
+                                                          imageLink:imageLink
+                                                        commentLink:commentLink];
+                     [self.posts addObject:post];
+                 }
              }
+             else
+             {
+                 self.navigationItem.title = @"Sorry, Error Connecting :(";
+             }
+
              self.doneLoading = YES;
              [self.tableView reloadData];
              self.progressView.hidden = YES;
@@ -95,11 +106,8 @@
          }
          else
          {
-             UIAlertView *alert = [[UIAlertView alloc] init];
-             alert.title = @"Error Retrieving Data";
-             alert.message = @"Please check your internet connection & for an app update (API might be broken)";
-             [alert addButtonWithTitle:@"Dismiss"];
-             [alert show];
+             NSLog(@"ERROR %@",connectionError);
+             self.navigationItem.title = @"Sorry, Error Connecting :(";
          }
      }];
 }
