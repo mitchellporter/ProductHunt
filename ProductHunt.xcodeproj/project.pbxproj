@@ -25,6 +25,7 @@
 		8E943788192BB1560098E4F9 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E943787192BB1560098E4F9 /* Post.m */; };
 		8E9AFBAD193680EA00B2C2FF /* FavoritesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E9AFBAC193680EA00B2C2FF /* FavoritesTableViewController.m */; };
 		8EBF0DB4194B256F008136AB /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF0DB3194B256F008136AB /* CommentsViewController.m */; };
+		8EF82F3C19A30EC400F9602F /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF82F3B19A30EC400F9602F /* placeholder.png */; };
 		F059183198A54427B52989F2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EFEA800C8C1424A98C00080 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		8E9CCC641933F9FA00D5A3A9 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		8EBF0DB2194B256F008136AB /* CommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsViewController.h; sourceTree = "<group>"; };
 		8EBF0DB3194B256F008136AB /* CommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsViewController.m; sourceTree = "<group>"; };
+		8EF82F3B19A30EC400F9602F /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		A8B46E73C3A949E893438FAA /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +147,7 @@
 				8E9AFBAC193680EA00B2C2FF /* FavoritesTableViewController.m */,
 				8E543020192D29D800CC393B /* TableViewController.h */,
 				8E543021192D29D800CC393B /* TableViewController.m */,
+				8EF82F3B19A30EC400F9602F /* placeholder.png */,
 				8E49909519247394004D4352 /* Images.xcassets */,
 				8E49908419247394004D4352 /* Supporting Files */,
 			);
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E49909619247394004D4352 /* Images.xcassets in Resources */,
+				8EF82F3C19A30EC400F9602F /* placeholder.png in Resources */,
 				8E49908819247394004D4352 /* InfoPlist.strings in Resources */,
 				8E49909119247394004D4352 /* Main.storyboard in Resources */,
 			);

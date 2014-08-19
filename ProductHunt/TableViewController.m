@@ -16,6 +16,7 @@
 #import "CommentsViewController.h"
 #import "SWTableViewCell.h"
 @import Twitter;
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface TableViewController () <UIAlertViewDelegate, SWTableViewCellDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -65,51 +66,101 @@
 
     self.posts = [[NSMutableArray alloc] init];
     [self.tableView reloadData];
+    [self RESTCALLP1];
+}
 
-    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:kAPI]]
+- (void)RESTCALLP1
+{
+    NSString *apiKey = @"e9af2cf386088f8348d8b4b1077d437ff3b72eaa4133ae55a81f6ca9e4f02829";
+    NSString *apiSecret = @"96d1a541080f78260044b228693e98d105fa9c3edd5150742ad6c31ae8baa0be";
+    NSString *urlString = [NSString stringWithFormat:@"https://www.producthunt.com/v1/oauth/token"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
+    NSString *params = [NSString stringWithFormat:@"client_id=%@&client_secret=%@&grant_type=client_credentials",apiKey,apiSecret];
+    request.HTTPMethod = @"POST";
+    request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
+
+    [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
-         if (!connectionError)
+         if (error)
          {
-             NSDictionary *output = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&connectionError];
-
-             if (output)
-             {
-                 self.navigationItem.title = @"Today";
-
-                 for (NSDictionary *hunt in output[@"hunts"])
-                 {
-                     NSString *productLink = hunt[@"url"];
-                     NSString *title = hunt[@"title"];
-                     NSString *subtitle = hunt[@"tagline"];
-                     NSString *commentLink = [NSString stringWithFormat:@"http://www.producthunt.com%@", hunt[@"permalink"]];
-                     NSString *imageLink = nil;
-
-                     Post *post = [[Post alloc] initWithproductLink:productLink
-                                                              title:title
-                                                           subtitle:subtitle
-                                                          imageLink:imageLink
-                                                        commentLink:commentLink];
-                     [self.posts addObject:post];
-                 }
-             }
-             else
-             {
-                 self.navigationItem.title = @"Sorry, Error Connecting :(";
-             }
-
-             self.doneLoading = YES;
-             [self.tableView reloadData];
-             self.progressView.hidden = YES;
-             [self.refreshControl endRefreshing];
+             NSLog(@"%@",error.localizedDescription);
+             [self handleError];
          }
          else
          {
-             NSLog(@"ERROR %@",connectionError);
-             self.navigationItem.title = @"Sorry, Error Connecting :(";
+             NSDictionary *output = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+             NSLog(@"%@",output);
+             NSString *authorization = [NSString stringWithFormat:@"Bearer %@",output[@"access_token"]];
+             [self RESTCALLP2:authorization];
          }
      }];
+}
+
+- (void)RESTCALLP2:(NSString *)authorization
+{
+    NSString *urlString = [NSString stringWithFormat:@"https://www.producthunt.com/v1/posts"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
+    request.HTTPMethod = @"GET";
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:authorization forHTTPHeaderField:@"Authorization"];
+//    [request setValue:@"example.org" forHTTPHeaderField:@"Host"];
+//    [request setValue:@"" forHTTPHeaderField:@"Cookie"];
+
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+         if (error)
+         {
+             NSLog(@"error: %@",error.localizedDescription);
+             [self handleError];
+         }
+         else
+         {
+             NSDictionary *output2 = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+             NSLog(@"success: %@",output2);
+             [self handleSuccess:output2[@"posts"]];
+         }
+     }];
+}
+
+- (void)handleError
+{
+     self.navigationItem.title = @"Sorry, Error Connecting :(";
+    [self stopLoadUI];
+}
+
+- (void)handleSuccess:(NSArray *)hunts
+{
+    self.navigationItem.title = @"Today";
+
+    for (NSDictionary *hunt in hunts)
+    {
+        NSString *productLink = hunt[@"redirect_url"];
+        NSString *title = hunt[@"name"];
+        NSString *subtitle = hunt[@"tagline"];
+        NSString *commentLink = hunt[@"discussion_url"];
+        NSString *imageLink = hunt[@"screenshot_url"][@"300px"];
+
+        Post *post = [[Post alloc] initWithproductLink:productLink
+                                                 title:title
+                                              subtitle:subtitle
+                                             imageLink:imageLink
+                                           commentLink:commentLink];
+        [self.posts addObject:post];
+    }
+    [self stopLoadUI];
+}
+
+- (void)stopLoadUI
+{
+    self.doneLoading = YES;
+    [self.tableView reloadData];
+    self.progressView.hidden = YES;
+    [self.refreshControl endRefreshing];
 }
 
 - (void)timerCallback
@@ -152,6 +203,9 @@
     cell.detailTextLabel.textColor = [UIColor grayColor];
     cell.detailTextLabel.numberOfLines = 2;
     cell.detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+
+//    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:post.imageLink] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+//    cell.layer.masksToBounds = YES;
 
     return cell;
 }

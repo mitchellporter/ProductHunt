@@ -1,12 +1,17 @@
 PODS:
+  - SDWebImage (3.7.1):
+    - SDWebImage/Core
+  - SDWebImage/Core (3.7.1)
   - SuProgress (0.8.1)
   - SWTableViewCell (0.3.0)
 
 DEPENDENCIES:
+  - SDWebImage
   - SuProgress
   - SWTableViewCell
 
 SPEC CHECKSUMS:
+  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
   SuProgress: b4e7347250f759a2b7672820687754833896f01c
   SWTableViewCell: 1725f7607ce4c154264c18aeb78e4636b11b0b29
 
