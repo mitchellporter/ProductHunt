@@ -100,14 +100,10 @@
 
 - (void)RESTCALLP2:(NSString *)authorization
 {
-    NSString *urlString = [NSString stringWithFormat:@"https://www.producthunt.com/v1/posts"];
+    NSString *urlString = [NSString stringWithFormat:@"https://api.producthunt.com/v1/posts"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
     request.HTTPMethod = @"GET";
-//    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:authorization forHTTPHeaderField:@"Authorization"];
-//    [request setValue:@"example.org" forHTTPHeaderField:@"Host"];
-//    [request setValue:@"" forHTTPHeaderField:@"Cookie"];
 
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
