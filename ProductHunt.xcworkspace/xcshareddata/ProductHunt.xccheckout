@@ -10,29 +10,29 @@
 	<string>ProductHunt</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>0B056EA4-0C37-4F55-8894-D79820187FF0</key>
+		<key>CCDF25589320C33E8A39A952E2691CE602E31A7B</key>
 		<string>https://github.com/sapanbhuta/ProductHunt</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>ProductHunt.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>0B056EA4-0C37-4F55-8894-D79820187FF0</key>
+		<key>CCDF25589320C33E8A39A952E2691CE602E31A7B</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/sapanbhuta/ProductHunt</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>0B056EA4-0C37-4F55-8894-D79820187FF0</string>
+	<string>CCDF25589320C33E8A39A952E2691CE602E31A7B</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>0B056EA4-0C37-4F55-8894-D79820187FF0</string>
+			<string>CCDF25589320C33E8A39A952E2691CE602E31A7B</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ProductHunt</string>
 		</dict>
